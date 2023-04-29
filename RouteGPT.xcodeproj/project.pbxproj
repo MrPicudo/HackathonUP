@@ -14,6 +14,7 @@
 		435E678429FD87FA00BE3C06 /* GPTAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E678329FD87FA00BE3C06 /* GPTAPIManager.swift */; };
 		435E678629FD88DF00BE3C06 /* RouteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E678529FD88DF00BE3C06 /* RouteTextView.swift */; };
 		435E678829FD97C200BE3C06 /* SharedInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E678729FD97C200BE3C06 /* SharedInfoModel.swift */; };
+		FE82DF8129FDAEF8009BC11A /* DirectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE82DF8029FDAEF8009BC11A /* DirectionsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		435E678329FD87FA00BE3C06 /* GPTAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTAPIManager.swift; sourceTree = "<group>"; };
 		435E678529FD88DF00BE3C06 /* RouteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTextView.swift; sourceTree = "<group>"; };
 		435E678729FD97C200BE3C06 /* SharedInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInfoModel.swift; sourceTree = "<group>"; };
+		FE82DF8029FDAEF8009BC11A /* DirectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				435E678329FD87FA00BE3C06 /* GPTAPIManager.swift */,
 				435E678529FD88DF00BE3C06 /* RouteTextView.swift */,
 				435E678729FD97C200BE3C06 /* SharedInfoModel.swift */,
+				FE82DF8029FDAEF8009BC11A /* DirectionsView.swift */,
 			);
 			path = RouteGPT;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				435E677829FD871B00BE3C06 /* ContentView.swift in Sources */,
+				FE82DF8129FDAEF8009BC11A /* DirectionsView.swift in Sources */,
 				435E678829FD97C200BE3C06 /* SharedInfoModel.swift in Sources */,
 				435E678629FD88DF00BE3C06 /* RouteTextView.swift in Sources */,
 				435E678429FD87FA00BE3C06 /* GPTAPIManager.swift in Sources */,
