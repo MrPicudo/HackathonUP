@@ -21,7 +21,7 @@ struct RouteTextView: View {
     
     var body: some View {
         ZStack {
-            Image("Background")
+            Image("background")
                 .resizable()
                 .ignoresSafeArea(.all)
             VStack {
@@ -39,30 +39,30 @@ struct RouteTextView: View {
                 Spacer()
                 // Vista de origen
                 TextField("Origen", text: $textFieldOrigin) // Si cambiamos la variable por "userInput" esa se manda a chatGPT (textFieldOrigin)
-                    .padding()
+                    .padding(30)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 // Vista de destino
                 TextField("Destino", text: $textFieldDestiny)
-                    .padding()
+                    .padding(30)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 Spacer()
-                
-                
-                
+
                 // Llamamos a la función sendGPTRequest cuando se presiona el link que nos manda a la siguiente vista
                 NavigationLink(destination: { () -> DirectionsView in   // Closure para la función destination
                     sendGPTRequest()
                     return DirectionsView()
                 }() ) { // Establecemos el estilo y la apariencia del link
                     Text("Enviar")
-                        .frame(minWidth: 0, maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
+                        .background(.gray)
                         .foregroundColor(.white)
                         .cornerRadius(40)
                 }
                  
+                
+                
+                /*
                 
                 ScrollView {
                     // Mostramos la respuesta de GPT en un cuadro de texto
@@ -71,6 +71,8 @@ struct RouteTextView: View {
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
                 }
+                
+                */
             }
         }
     }
