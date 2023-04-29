@@ -7,9 +7,26 @@ import Combine
 // Definimos una clase GPTAPIManager para manejar las solicitudes a la API de GPT
 class GPTAPIManager {
     
-    // Declaramos la clave API y la URL de la API de GPT como constantes privadas
-    private let apiKey = "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"
+    // Declaramos la URL de la API de GPT como constantes privadas
     private let gptURL = "https://api.openai.com/v1/chat/completions"
+    
+    // La llave de la API debe de almacenarse de manera segura en un archivo de tipo .plist que agregamos al Git Ignore para que no aparezca en el repositorio público, además, se obtiene de manera computable, después de iniciar el programa.
+    var apiKey: String {
+        get {
+            return getAPIKey()
+        }
+    }
+    
+    // Creamos una función para obtener la API desde el archivo .plist
+    func getAPIKey() -> String {
+        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
+           let keys = NSDictionary(contentsOfFile: path),
+           let apiKey = keys["OpenIAKey"] as? String {
+            return apiKey
+        } else {
+            fatalError("No API key found in Keys.plist")
+        }
+    }
     
     // Definimos una función sendRequest que toma una cadena de texto como entrada y devuelve un Publisher
     func sendRequest(prompt: String) -> AnyPublisher<String, Error> {
@@ -54,13 +71,13 @@ class GPTAPIManager {
                 }
                 return data
             }
-            // Decodificamos la respuesta JSON en una instancia de GPTAPIResponse
+        // Decodificamos la respuesta JSON en una instancia de GPTAPIResponse
             .decode(type: GPTAPIResponse.self, decoder: JSONDecoder())
-            // Extraemos el contenido del mensaje de la primera opción en la respuesta
+        // Extraemos el contenido del mensaje de la primera opción en la respuesta
             .map { $0.choices[0].message.content }
-            // Nos aseguramos de recibir la respuesta en el hilo principal
+        // Nos aseguramos de recibir la respuesta en el hilo principal
             .receive(on: DispatchQueue.main)
-            // Convertimos el resultado en un Publisher genérico
+        // Convertimos el resultado en un Publisher genérico
             .eraseToAnyPublisher()
     }
 }
