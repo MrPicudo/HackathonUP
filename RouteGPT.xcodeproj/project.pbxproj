@@ -14,6 +14,7 @@
 		435E678429FD87FA00BE3C06 /* GPTAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E678329FD87FA00BE3C06 /* GPTAPIManager.swift */; };
 		435E678629FD88DF00BE3C06 /* RouteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E678529FD88DF00BE3C06 /* RouteTextView.swift */; };
 		435E678829FD97C200BE3C06 /* SharedInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E678729FD97C200BE3C06 /* SharedInfoModel.swift */; };
+		435E678A29FDA1DE00BE3C06 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 435E678929FDA1DE00BE3C06 /* Keys.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		435E678329FD87FA00BE3C06 /* GPTAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTAPIManager.swift; sourceTree = "<group>"; };
 		435E678529FD88DF00BE3C06 /* RouteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTextView.swift; sourceTree = "<group>"; };
 		435E678729FD97C200BE3C06 /* SharedInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInfoModel.swift; sourceTree = "<group>"; };
+		435E678929FDA1DE00BE3C06 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			children = (
 				435E677529FD871B00BE3C06 /* RouteGPTApp.swift */,
 				435E677729FD871B00BE3C06 /* ContentView.swift */,
+				435E678929FDA1DE00BE3C06 /* Keys.plist */,
 				435E677929FD871D00BE3C06 /* Assets.xcassets */,
 				435E677B29FD871D00BE3C06 /* Preview Content */,
 				435E678329FD87FA00BE3C06 /* GPTAPIManager.swift */,
@@ -134,6 +137,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				435E678A29FDA1DE00BE3C06 /* Keys.plist in Resources */,
 				435E677D29FD871D00BE3C06 /* Preview Assets.xcassets in Resources */,
 				435E677A29FD871D00BE3C06 /* Assets.xcassets in Resources */,
 			);
