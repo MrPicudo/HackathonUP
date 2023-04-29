@@ -1,9 +1,5 @@
-//
-//  MapView.swift
-//  RouteGPT
-//
-//  Created by iOS Lab on 29/04/23.
-//
+/* MapView.swift --> RouteGPT. Created by iOS Lab on 29/04/23. */
+
 import SwiftUI
 import MapKit
 

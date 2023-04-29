@@ -47,12 +47,14 @@ struct RouteTextView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 Spacer()
-                // Creamos un botón para enviar la solicitud a la API de GPT
-                Button {
-                    // Llamamos a la función sendGPTRequest cuando se presiona el botón
+                
+                
+                
+                // Llamamos a la función sendGPTRequest cuando se presiona el link que nos manda a la siguiente vista
+                NavigationLink(destination: { () -> DirectionsView in   // Closure para la función destination
                     sendGPTRequest()
-                } label: {
-                    // Establecemos el estilo y la apariencia del botón
+                    return DirectionsView()
+                }() ) { // Establecemos el estilo y la apariencia del link
                     Text("Enviar")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .padding()
@@ -60,7 +62,8 @@ struct RouteTextView: View {
                         .foregroundColor(.white)
                         .cornerRadius(40)
                 }
-                .padding()
+                 
+                
                 ScrollView {
                     // Mostramos la respuesta de GPT en un cuadro de texto
                     Text(gptResponse)
@@ -78,7 +81,7 @@ struct RouteTextView: View {
         cancellable?.cancel()
         
         // Creamos un prompt modificado que incluye la entrada del usuario
-        let modifiedUserInput = "¿Cómo llego de " + textFieldOrigin + " a " + textFieldDestiny + "?. Se lo más específico posible y dame un aproximado de tiempo y costo para cada ruta."
+        let modifiedUserInput = "¿Cómo llego de " + textFieldOrigin + " a " + textFieldDestiny + "?. Dame un aproximado de tiempo y costo para cada ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte."
         
         // Enviamos una solicitud a la API de GPT y manejamos el resultado usando Combine
         cancellable = gptAPIManager.sendRequest(prompt: modifiedUserInput)

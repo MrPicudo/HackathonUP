@@ -5,15 +5,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         NavigationView {
-            TabView {
-                NavigationLink(destination: RouteTextView()) {
-                    Text("Rutas de viaje")
-                }
-                .tabItem {
-                    Image(systemName: "mappin.and.ellipse")
-                    Text("Función 1")
-                }
-            }
+            RouteTextView()
         }
     }
 }
