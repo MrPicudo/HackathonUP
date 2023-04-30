@@ -30,6 +30,7 @@ class GPTAPIManager {
     
     // Definimos una función sendRequest que toma una cadena de texto como entrada y devuelve un Publisher
     func sendRequest(prompt: String) -> AnyPublisher<String, Error> {
+        print(prompt)
         // Verificamos que la URL sea válida
         guard let url = URL(string: gptURL) else {
             fatalError("Invalid URL")

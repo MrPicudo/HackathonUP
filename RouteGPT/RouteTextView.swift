@@ -17,7 +17,7 @@ struct RouteTextView: View {
     
     var body: some View {
         ZStack {
-            Image("background")
+            Image("b")
                 .resizable()
                 .ignoresSafeArea(.all)
             VStack {
@@ -25,8 +25,9 @@ struct RouteTextView: View {
                 NavigationLink(destination: ProfileView().environmentObject(sharedInfo)) {
                     Image(sharedInfo.image)
                         .resizable()
-                        .frame(width: 70, height: 70)
+                        .frame(width: 130, height: 130)
                         .cornerRadius(50)
+                        .shadow(radius: 30)
                 }.padding(20)
                 
                 HStack {
@@ -46,20 +47,9 @@ struct RouteTextView: View {
                     Spacer()
                 }.padding(.leading, 30)
                 
-                Spacer()
+                Divider()
                 
-                /*
-                // Vista de origen
-                TextField("Origen", text: $sharedInfo.textFieldOrigin) // Si cambiamos la variable por "userInput" esa se manda a chatGPT (textFieldOrigin)
-                    .padding(30)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                // Vista de destino
-                TextField("Destino", text: $sharedInfo.textFieldDestiny)
-                    .padding(30)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                */
-                
-                // Creamos un botón que llame a la función recordButtonTapped() de SpeechManager.
+                // Botón de origen, con reconocimiento de voz
                 Button{
                     speechManager.recordButtonTapped()
                     // Comprobamos si el motor de audio está en funcionamiento.
@@ -68,17 +58,60 @@ struct RouteTextView: View {
                         originButtonTitle = "Grabando..."
                     } else {
                         // Si no está funcionando, actualizamos el título del botón y el estado de la grabación.
-                        originButtonTitle = "Recon"
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            originButtonTitle = speechManager.recognizedVoiceText
+                            sharedInfo.textFieldOrigin = originButtonTitle
+                        }
                     }
                 } label: {
-                    Text("Presiona aquí")
-                }
-                
-                // Texto grabado
-                Text(speechManager.recognizedVoiceText)
-                    .multilineTextAlignment(.center)
+                    HStack(spacing: 40) {
+                        Image("origen")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                        Text(originButtonTitle)
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                    }
                     .padding()
-                      
+                    .frame(width: 350)
+                    .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+                    .shadow(radius: 10)
+                    .padding(.horizontal, 20)
+                }
+                .padding(.vertical, 30)
+                
+                // Botón de destino, con reconocimiento de voz.
+                Button{
+                    speechManager.recordButtonTapped()
+                    // Comprobamos si el motor de audio está en funcionamiento.
+                    if speechManager.audioEngine.isRunning {
+                        // Si está funcionando, actualizamos el título del botón y el estado de la grabación.
+                        destinyButtonTitle = "Grabando..."
+                    } else {
+                        // Si no está funcionando, actualizamos el título del botón y el estado de la grabación.
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            destinyButtonTitle = speechManager.recognizedVoiceText
+                            sharedInfo.textFieldDestiny = destinyButtonTitle
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 40) {
+                        Text(destinyButtonTitle)
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                        Image("destino")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
+                    .padding()
+                    .frame(width: 350)
+                    .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+                    .shadow(radius: 10)
+                    .padding(.horizontal, 20)
+                }
+  
                 Spacer()
                 
                 NavigationLink(destination: DirectionsView().environmentObject(sharedInfo)) {
@@ -94,9 +127,13 @@ struct RouteTextView: View {
                 }
             }
         }
-        .onAppear(perform: {
+        .onAppear {
             speechManager.requestAuthorization()
-        })
+        }
+        .onDisappear {
+            originButtonTitle = "Origen"
+            destinyButtonTitle = "Destino"
+        }
     }
 }
 
