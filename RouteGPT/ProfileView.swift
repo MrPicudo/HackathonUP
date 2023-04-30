@@ -14,20 +14,33 @@ struct ProfileView: View {
     @State private var walk = false
     @State private var bic = false
     
+    @State private var carChoise = false
+    @State private var busChoise = false
+    @State private var walkChoise = false
+    @State private var bicChoise = false
+    
     // Preferencias de optimización
     @State private var sec = false
     @State private var quick = false
     @State private var cheap = false
     
+    @State private var secChoise = false
+    @State private var quickChoise = false
+    @State private var cheapChoise = false
+    
     // Variable de estado para activar o desactivar los botones
     @State private var editing = false
+    @State private var selected01 = false
+    @State private var selected02 = false
     @State private var buttonTitle = "Editar"
     
     var body: some View {
         ZStack {
+            /*
             Image("backnaranja")
                 .resizable()
                 .ignoresSafeArea(.all)
+             */
             VStack{
                 // Grupo de foto de perfil, nombre y edad
                 Group {
@@ -63,6 +76,8 @@ struct ProfileView: View {
                     } maximumValueLabel: {
                         Text("99")
                     }
+                    .disabled(!editing)
+                    
                     Text("\(edad.formatted())")
                         .foregroundColor(.blue)
                 }
@@ -79,35 +94,43 @@ struct ProfileView: View {
                     HStack {
                         Button {
                             car.toggle()
+                            selected01.toggle()
+                            carChoise.toggle()
                         } label: {
-                            Image("carro")
+                            Image((!editing || (selected01 && carChoise == false)) ? "carro2" : "carro")
                                 .resizable()
                         }
-                        .disabled(!editing)
+                        .disabled(!editing || (selected01 && carChoise == false))
                         .modifier(ButtonStyle(editing: editing))
                         Button {
                             bus.toggle()
+                            selected01.toggle()
+                            busChoise.toggle()
                         } label: {
-                            Image("publico")
+                            Image((!editing || (selected01 && busChoise == false)) ? "publico2" : "publico")
                                 .resizable()
                         }
-                        .disabled(!editing)
+                        .disabled(!editing || (selected01 && busChoise == false))
                         .modifier(ButtonStyle(editing: editing))
                         Button {
                             bic.toggle()
+                            selected01.toggle()
+                            bicChoise.toggle()
                         } label: {
-                            Image("bicicleta")
+                            Image((!editing || (selected01 && bicChoise == false)) ? "bicicleta2" : "bicicleta")
                                 .resizable()
                         }
-                        .disabled(!editing)
+                        .disabled(!editing || (selected01 && bicChoise == false))
                         .modifier(ButtonStyle(editing: editing))
                         Button {
                             walk.toggle()
+                            selected01.toggle()
+                            walkChoise.toggle()
                         } label: {
-                            Image("caminar")
+                            Image((!editing || (selected01 && walkChoise == false)) ? "caminar2" : "caminar")
                                 .resizable()
                         }
-                        .disabled(!editing)
+                        .disabled(!editing || (selected01 && walkChoise == false))
                         .modifier(ButtonStyle(editing: editing))
                     }
                 }
@@ -120,31 +143,37 @@ struct ProfileView: View {
                     // Opciones de optimización
                     Text("Preferencias de viaje")
                         .font(.title)
-                    // Botones para elegir el transporte preferido
+                    // Botones para elegir las preferencias de viaje
                     HStack(spacing: 35) {
                         Button {
                             sec.toggle()
+                            selected02.toggle()
+                            secChoise.toggle()
                         } label: {
-                            Image("seguridad")
+                            Image((!editing || (selected02 && secChoise == false)) ? "seguridad2" : "seguridad")
                                 .resizable()
                         }
-                        .disabled(!editing)
+                        .disabled(!editing || (selected02 && secChoise == false))
                         .modifier(ButtonStyle(editing: editing))
                         Button {
                             quick.toggle()
+                            selected02.toggle()
+                            quickChoise.toggle()
                         } label: {
-                            Image("velocidad")
+                            Image((!editing || (selected02 && quickChoise == false)) ? "velocidad2" : "velocidad")
                                 .resizable()
                         }
-                        .disabled(!editing)
+                        .disabled(!editing || (selected02 && quickChoise == false))
                         .modifier(ButtonStyle(editing: editing))
                         Button {
                             cheap.toggle()
+                            selected02.toggle()
+                            cheapChoise.toggle()
                         } label: {
-                            Image("economia")
+                            Image((!editing || (selected02 && cheapChoise == false)) ? "economia2" : "economia")
                                 .resizable()
                         }
-                        .disabled(!editing)
+                        .disabled(!editing || (selected02 && cheapChoise == false))
                         .modifier(ButtonStyle(editing: editing))
                     }
                     .padding(10)
@@ -152,7 +181,6 @@ struct ProfileView: View {
                 
                 Divider()
                 Spacer()
-                
                 
                 Button {
                     editing.toggle()
@@ -173,12 +201,9 @@ struct ProfileView: View {
                         .cornerRadius(30)
                         .shadow(radius: 10)
                 }
-                
-                
             }
             .padding(30)
         }
-        
     }
 }
 

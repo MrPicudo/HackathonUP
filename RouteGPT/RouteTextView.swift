@@ -64,10 +64,11 @@ struct RouteTextView: View {
                         }
                     }
                 } label: {
-                    HStack(spacing: 40) {
+                    ZStack {
                         Image("origen")
                             .resizable()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 50, height: 50)
+                            .padding(.trailing, 280)
                         Text(originButtonTitle)
                             .font(.largeTitle)
                             .fontWeight(.semibold)
@@ -96,18 +97,19 @@ struct RouteTextView: View {
                         }
                     }
                 } label: {
-                    HStack(spacing: 40) {
+                    ZStack {
                         Text(destinyButtonTitle)
                             .font(.largeTitle)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
                         Image("destino")
                             .resizable()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 50, height: 50)
+                            .padding(.leading, 280)
                     }
                     .padding()
                     .frame(width: 350)
-                    .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+                    .background(RoundedRectangle(cornerRadius: 15).fill(Color(red: 67/255, green: 61/255, blue: 113/255)))
                     .shadow(radius: 10)
                     .padding(.horizontal, 20)
                 }
@@ -116,10 +118,10 @@ struct RouteTextView: View {
                 
                 NavigationLink(destination: DirectionsView().environmentObject(sharedInfo)) {
                     Text("Enviar")
-                        .font(.title)
+                        .font(.largeTitle)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
-                        .frame(width: 200)
+                        .frame(width: 250, height: 55)
                         .padding(10)
                         .background(Color.blue)
                         .cornerRadius(30)

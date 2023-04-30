@@ -49,7 +49,7 @@ class GPTAPIManager {
                 ["role": "system", "content": "Estás hablando con un asistente de inteligencia artificial. ¿En qué puedo ayudarte hoy?"],
                 ["role": "user", "content": prompt]
             ],
-            "max_tokens": NSNumber(value: 300)
+            "max_tokens": NSNumber(value: 1000)
         ]
         
         do {

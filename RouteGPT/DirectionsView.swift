@@ -27,29 +27,36 @@ struct DirectionsView: View {
             // MapView representa la vista del mapa y recibe las instrucciones
             if sharedInfo.indicaciones != "" {
                 MapView(instrucciones: $instrucciones)
+                // Scroll view para la información retornada de la API
+                ScrollView {
+                    Text(sharedInfo.indicaciones)
+                }
+                .padding()
+                // Botón que muestra las instrucciones de dirección
+                Button {
+                    // Cambia el estado de showDirections
+                    self.showDirections.toggle()
+                } label: {
+                    // Texto que se muestra en el botón
+                    Text("Show directions")
+                }
+                .disabled(instrucciones.isEmpty) // Deshabilita el botón si no hay instrucciones
+                .padding() // Espaciado alrededor del botón
             }
             else {
-                Image("iavoy2")
+                Image("iavoy1")
                     .resizable()
                     .scaledToFit()
+                Divider()
+                Spacer()
+                Image("f7")
+                    .resizable()
+                    .scaledToFit()
+                Spacer()
+                Text("Cargando...")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
             }
-            
-            // Scroll view para la información retornada de la API
-            ScrollView {
-                Text(sharedInfo.indicaciones)
-            }
-            .padding()
-            
-            // Botón que muestra las instrucciones de dirección
-            Button {
-                // Cambia el estado de showDirections
-                self.showDirections.toggle()
-            } label: {
-                // Texto que se muestra en el botón
-                Text("Show directions")
-            }
-            .disabled(instrucciones.isEmpty) // Deshabilita el botón si no hay instrucciones
-            .padding() // Espaciado alrededor del botón
         }
         // Presenta la hoja con las instrucciones si showDirections es verdadero
         .sheet(isPresented: $showDirections, content: {VStack(spacing:0) {
@@ -97,7 +104,7 @@ Latitud de sitio de origen: (valor de latitud de origen con decimales)
 Longitud de sitio de origen: (valor de longitud de origen con decimales)
 Latitud de sitio de destino: (valor de latitud de destino con decimales)
 Longitud de sitio de destino: (valor de longitud de destino con decimales)
-Importante, NO dejes renglones en blanco.
+Importante, ¡NO dejes renglones en blanco!.
 Posteriormente, dame las indicaciones detalladas para llegar del origen al destino utilizando la mejor ruta posible. Considera que soy una persona de 29 años cuyo medio de transporte preferido es el transporte público y mi objetivo es ir en la ruta más económica posible. Dame un aproximado de tiempo y costo para la ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte.
 Origen: \(sharedInfo.textFieldOrigin)
 Destino: \(sharedInfo.textFieldDestiny)
@@ -120,16 +127,6 @@ Destino: \(sharedInfo.textFieldDestiny)
                 let lines = sharedInfo.gptResponse.components(separatedBy: .newlines)
 
                 if lines.count >= 3 {
-                    /*
-                    let line1 = lines[0]
-                    sharedInfo.latOri = Double(line1) ?? 19.25465
-                    let line2 = lines[1]
-                    sharedInfo.lonOri = Double(line2) ?? -99.10356
-                    let line3 = lines[2]
-                    sharedInfo.latDes = Double(line3) ?? 19.3467
-                    let line4 = lines[3]
-                    sharedInfo.lonDes = Double(line4) ?? -99.16174
-                     */
                     // Obtenemos el resto del texto
                     let remainingLines = lines[4...].joined(separator: "\n")
                     sharedInfo.indicaciones = remainingLines
@@ -147,8 +144,6 @@ Destino: \(sharedInfo.textFieldDestiny)
                     sharedInfo.latDes = Double(extractedValues[2])
                     sharedInfo.lonDes = Double(extractedValues[3])
                     print(extractedValues)
-                    
-                    
                 } else {
                     print("El texto analizado tiene menos de 4 líneas.")
                 }
