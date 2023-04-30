@@ -4,7 +4,7 @@
 import Foundation
 import Combine
 
-// Definimos una clase GPTAPIManager para manejar las solicitudes a la API de GPT
+/// Maneja las solicitudes a la API de GPT
 class GPTAPIManager {
     
     // Declaramos la URL de la API de GPT como constantes privadas

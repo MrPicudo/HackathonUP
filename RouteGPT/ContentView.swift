@@ -3,10 +3,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var sharedInfo = SharedInfoModel()
+    
     var body: some View {
         NavigationView {
             RouteTextView()
         }
+        .environmentObject(sharedInfo) // Lo agregamos a todo el NavitationView completo
     }
 }
 

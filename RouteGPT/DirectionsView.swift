@@ -3,13 +3,22 @@
 // Importamos los módulos necesarios
 import SwiftUI
 import MapKit
+import Combine
 
-// Esta vista muestra un mapa y permite mostrar direcciones entre dos puntos
+/// Vista que muestra un mapa y permite mostrar direcciones entre dos puntos
 struct DirectionsView: View {
+    
     // Lista de instrucciones de dirección
     @State private var instrucciones: [String] = []
     // Controla si se muestran las instrucciones de dirección en una hoja
     @State private var showDirections = false
+    // Declaramos la instancia de tipo SharedInfoModel para accedero a las variables de ambiente.
+    @EnvironmentObject var sharedInfo: SharedInfoModel
+    // Creamos una instancia de GPTAPIManager para manejar las solicitudes a la API
+    private let gptAPIManager = GPTAPIManager()
+    // Declaramos las propiedades de estado para almacenar la entrada del usuario, la respuesta de GPT y el objeto cancelable
+    @State private var userInput = ""
+    @State private var cancellable: AnyCancellable? // Viene del framework Combine
     
     // Definimos la estructura de la vista
     var body: some View {
@@ -17,18 +26,22 @@ struct DirectionsView: View {
         VStack{
             // MapView representa la vista del mapa y recibe las instrucciones
             MapView(instrucciones: $instrucciones)
-            // Botón que muestra u oculta las instrucciones de dirección
-            Button(action: {
+            // Scroll view para la información retornada de la API
+            ScrollView {
+                Text(sharedInfo.gptResponse)
+            }
+            .padding()
+            
+            // Botón que muestra las instrucciones de dirección
+            Button {
                 // Cambia el estado de showDirections
                 self.showDirections.toggle()
-            }, label: {
+            } label: {
                 // Texto que se muestra en el botón
                 Text("Show directions")
-            })
-            // Deshabilita el botón si no hay instrucciones
-            .disabled(instrucciones.isEmpty)
-            // Espaciado alrededor del botón
-            .padding()
+            }
+            .disabled(instrucciones.isEmpty) // Deshabilita el botón si no hay instrucciones
+            .padding() // Espaciado alrededor del botón
         }
         // Presenta la hoja con las instrucciones si showDirections es verdadero
         .sheet(isPresented: $showDirections, content: {VStack(spacing:0) {
@@ -44,19 +57,48 @@ struct DirectionsView: View {
                 // Itera sobre las instrucciones y muestra cada una en un Text
                 ForEach( 0..<self.instrucciones.count, id: \.self) {
                     i in Text(self.instrucciones[i])
-                        // Espaciado alrededor de cada instrucción
+                    // Espaciado alrededor de cada instrucción
                         .padding()
                 }
             }
         }})
+        .onAppear {
+            sendGPTRequest()
+        }
+        .onDisappear {
+            sharedInfo.gptResponse = ""
+        }
+        
+    }
+    
+    // Definimos una función privada para enviar una solicitud a la API de GPT
+    private func sendGPTRequest() {
+        // Cancelamos cualquier solicitud anterior que pueda estar en curso
+        cancellable?.cancel()
+        // Creamos un prompt modificado que incluye la entrada del usuario
+        let modifiedUserInput = "¿Cómo llego de " + sharedInfo.textFieldOrigin + " a " + sharedInfo.textFieldDestiny + "?. Dame un aproximado de tiempo y costo para cada ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte."
+        // Enviamos una solicitud a la API de GPT y manejamos el resultado usando Combine
+        cancellable = gptAPIManager.sendRequest(prompt: modifiedUserInput)
+            .sink(receiveCompletion: { completion in
+                // Manejamos los casos de éxito y fracaso en la recepción de la respuesta
+                switch completion {
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                case .finished:
+                    break
+                }
+            }, receiveValue: { response in
+                // Actualizamos la propiedad gptResponse en sharedInfo con la respuesta recibida de la API
+                sharedInfo.gptResponse = response
+                print("Respuesta GPT: \(response)")
+            })
     }
 }
 
-// MapView representa un mapa y permite mostrar direcciones entre dos puntos
+/// MapView representa un mapa y permite mostrar direcciones entre dos puntos
 struct MapView : UIViewRepresentable {
     // Tipo de vista asociada a UIViewRepresentable
     typealias UIViewType = MKMapView
-    
     // Variable de enlace para las instrucciones de dirección
     @Binding var instrucciones: [String]
     
@@ -75,11 +117,9 @@ struct MapView : UIViewRepresentable {
         let region = MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 19.4326, longitude: -99.1332), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
         mapView.setRegion(region, animated: true)
-        
         // Crear dos puntos en el mapa (p1 y p2)
         let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 19.4326, longitude: -99.1332))
         let p2 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 19.03793, longitude: -98.20346))
-        
         // Crear y configurar una solicitud de direcciones
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: p1)
@@ -111,10 +151,9 @@ struct MapView : UIViewRepresentable {
     
     // Función para actualizar la vista del mapa, en este caso vacía
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        
     }
     
-    // Clase que actúa como delegado para el mapa y maneja la representación de las rutas
+    /// Actúa como delegado para el mapa y maneja la representación de las rutas
     class MapViewCoordinator: NSObject, MKMapViewDelegate{
         // Función para configurar la apariencia de la ruta en el mapa
         func mapView(_ mapView: MKMapView,  rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
