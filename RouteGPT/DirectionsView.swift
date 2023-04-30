@@ -92,8 +92,12 @@ struct DirectionsView: View {
         cancellable?.cancel()
         // Creamos un prompt modificado que incluye la entrada del usuario
         let modifiedUserInput = """
-Eres un experto en los diferentes medios de transporte y conoces muy bien las rutas más adecuadas para cada tipo de transporte en México, ya sea en auto, transporte público, bicicleta o caminando. Te voy a mandar el nombre de dos sitios, uno es el sitio de origen y el otro es el sitio de destino de un viaje que necesito realizar. Necesito que escribas únicamente los valores de las coordenadas de latitud y longitud de cada sitio, sin ninguna frase explicativa ni nada adicional, en líneas separadas, siguiendo el orden de: latitud de sitio de origen, longitud de sitio de origen, latitud de sitio de destino, longitud de sitio de destino.
-Recuerda, no escribas nada más que los valores correspondientes de latitud y longitud
+Eres un experto en los diferentes medios de transporte y conoces muy bien las rutas más adecuadas para cada tipo de transporte en México, ya sea en auto, transporte público, bicicleta o caminando. Te voy a mandar el nombre de dos sitios, uno es el sitio de origen y el otro es el sitio de destino de un viaje que necesito realizar. Necesito que escribas los valores de las coordenadas de latitud y longitud de cada sitio, en líneas separadas, siguiendo estrictamente el siguiente formato:
+Latitud de sitio de origen: (valor de latitud de origen con decimales)
+Longitud de sitio de origen: (valor de longitud de origen con decimales)
+Latitud de sitio de destino: (valor de latitud de destino con decimales)
+Longitud de sitio de destino: (valor de longitud de destino con decimales)
+Importante, NO dejes renglones en blanco.
 Posteriormente, dame las indicaciones detalladas para llegar del origen al destino utilizando la mejor ruta posible. Considera que soy una persona de 29 años cuyo medio de transporte preferido es el transporte público y mi objetivo es ir en la ruta más económica posible. Dame un aproximado de tiempo y costo para la ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte.
 Origen: \(sharedInfo.textFieldOrigin)
 Destino: \(sharedInfo.textFieldDestiny)
