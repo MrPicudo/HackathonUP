@@ -111,10 +111,12 @@ Destino: \(sharedInfo.textFieldDestiny)
             }, receiveValue: { response in
                 // Actualizamos la propiedad gptResponse en sharedInfo con la respuesta recibida de la API
                 sharedInfo.gptResponse = response
+                print(response)
                 // Manejo de la cadena obtenida de la API
                 let lines = sharedInfo.gptResponse.components(separatedBy: .newlines)
 
                 if lines.count >= 3 {
+                    /*
                     let line1 = lines[0]
                     sharedInfo.latOri = Double(line1) ?? 19.25465
                     let line2 = lines[1]
@@ -123,22 +125,29 @@ Destino: \(sharedInfo.textFieldDestiny)
                     sharedInfo.latDes = Double(line3) ?? 19.3467
                     let line4 = lines[3]
                     sharedInfo.lonDes = Double(line4) ?? -99.16174
-                    // Obteniendo el resto del texto
+                     */
+                    // Obtenemos el resto del texto
                     let remainingLines = lines[4...].joined(separator: "\n")
                     sharedInfo.indicaciones = remainingLines
+                    
+                    var extractedValues: [String] = []
+
+                    for line in lines {
+                        if let range = line.range(of: ": ") {
+                            let value = line[range.upperBound...].trimmingCharacters(in: .whitespaces)
+                            extractedValues.append(value)
+                        }
+                    }
+                    sharedInfo.latOri = Double(extractedValues[0])
+                    sharedInfo.lonOri = Double(extractedValues[1])
+                    sharedInfo.latDes = Double(extractedValues[2])
+                    sharedInfo.lonDes = Double(extractedValues[3])
+                    print(extractedValues)
+                    
+                    
                 } else {
                     print("El texto analizado tiene menos de 4 líneas.")
                 }
-                
-                var extractedValues: [String] = []
-
-                for line in lines {
-                    if let range = line.range(of: ": ") {
-                        let value = line[range.upperBound...].trimmingCharacters(in: .whitespaces)
-                        extractedValues.append(value)
-                    }
-                }
-                print(extractedValues)
             })
     }
 }
