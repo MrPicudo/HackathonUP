@@ -15,20 +15,32 @@ struct RouteTextView: View {
                 .ignoresSafeArea(.all)
             VStack {
                 // Vista de perfil de usuario
+                NavigationLink(destination: ProfileView().environmentObject(sharedInfo)) {
+                    Image(sharedInfo.image)
+                        .resizable()
+                        .frame(width: 70, height: 70)
+                        .cornerRadius(50)
+                }.padding(20)
+                
                 HStack {
-                    Text("Hola " + sharedInfo.name)
+                    Text("¡Hola " + sharedInfo.name + "!")
                         .font(.largeTitle)
-                        .fontWeight(.heavy)
+                        .fontWeight(.bold)
                     Spacer()
-                    NavigationLink(destination: ProfileView().environmentObject(sharedInfo)) {
-                        Image(sharedInfo.image)
-                            .resizable()
-                            .frame(width: 70, height: 70)
-                            .cornerRadius(50)
-                    }
                 }
-                .padding(30)
+                .padding(.leading, 30)
+                .padding(.bottom, 5)
+                
+                
+                HStack {
+                    Text("¿A dónde vamos a ir hoy?")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Spacer()
+                }.padding(.leading, 30)
+                
                 Spacer()
+                
                 // Vista de origen
                 TextField("Origen", text: $sharedInfo.textFieldOrigin) // Si cambiamos la variable por "userInput" esa se manda a chatGPT (textFieldOrigin)
                     .padding(30)
@@ -42,10 +54,14 @@ struct RouteTextView: View {
                 
                 NavigationLink(destination: DirectionsView().environmentObject(sharedInfo)) {
                     Text("Enviar")
-                        .padding()
-                        .background(.gray)
+                        .font(.title)
+                        .fontWeight(.semibold)
                         .foregroundColor(.white)
-                        .cornerRadius(40)
+                        .frame(width: 200)
+                        .padding(10)
+                        .background(Color.blue)
+                        .cornerRadius(30)
+                        .shadow(radius: 10)
                 }
             }
         }

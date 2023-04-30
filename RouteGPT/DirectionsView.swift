@@ -12,7 +12,7 @@ struct DirectionsView: View {
     @State private var instrucciones: [String] = []
     // Controla si se muestran las instrucciones de dirección en una hoja
     @State private var showDirections = false
-    // Declaramos la instancia de tipo SharedInfoModel para accedero a las variables de ambiente.
+    // Declaramos la instancia de tipo SharedInfoModel para acceder a las variables de ambiente.
     @EnvironmentObject var sharedInfo: SharedInfoModel
     // Creamos una instancia de GPTAPIManager para manejar las solicitudes a la API
     private let gptAPIManager = GPTAPIManager()
@@ -25,10 +25,18 @@ struct DirectionsView: View {
         // VStack organiza verticalmente las vistas dentro
         VStack{
             // MapView representa la vista del mapa y recibe las instrucciones
-            MapView(instrucciones: $instrucciones)
+            if sharedInfo.indicaciones != "" {
+                MapView(instrucciones: $instrucciones)
+            }
+            else {
+                Image("iavoy2")
+                    .resizable()
+                    .scaledToFit()
+            }
+            
             // Scroll view para la información retornada de la API
             ScrollView {
-                Text(sharedInfo.gptResponse)
+                Text(sharedInfo.indicaciones)
             }
             .padding()
             
@@ -67,6 +75,13 @@ struct DirectionsView: View {
         }
         .onDisappear {
             sharedInfo.gptResponse = ""
+            sharedInfo.indicaciones = ""
+            sharedInfo.textFieldOrigin = ""
+            sharedInfo.textFieldDestiny = ""
+            sharedInfo.latOri = 0.0
+            sharedInfo.lonOri = 0.0
+            sharedInfo.latDes = 0.0
+            sharedInfo.latDes = 0.0
         }
         
     }
@@ -76,7 +91,13 @@ struct DirectionsView: View {
         // Cancelamos cualquier solicitud anterior que pueda estar en curso
         cancellable?.cancel()
         // Creamos un prompt modificado que incluye la entrada del usuario
-        let modifiedUserInput = "¿Cómo llego de " + sharedInfo.textFieldOrigin + " a " + sharedInfo.textFieldDestiny + "?. Dame un aproximado de tiempo y costo para cada ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte."
+        let modifiedUserInput = """
+Eres un experto en los diferentes medios de transporte y conoces muy bien las rutas más adecuadas para cada tipo de transporte en México, ya sea en auto, transporte público, bicicleta o caminando. Te voy a mandar el nombre de dos sitios, uno es el sitio de origen y el otro es el sitio de destino de un viaje que necesito realizar. Necesito que escribas únicamente los valores de las coordenadas de latitud y longitud de cada sitio, sin ninguna frase explicativa ni nada adicional, en líneas separadas, siguiendo el orden de: latitud de sitio de origen, longitud de sitio de origen, latitud de sitio de destino, longitud de sitio de destino.
+Recuerda, no escribas nada más que los valores correspondientes de latitud y longitud
+Posteriormente, dame las indicaciones detalladas para llegar del origen al destino utilizando la mejor ruta posible. Considera que soy una persona de 29 años cuyo medio de transporte preferido es el transporte público y mi objetivo es ir en la ruta más económica posible. Dame un aproximado de tiempo y costo para la ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte.
+Origen: \(sharedInfo.textFieldOrigin)
+Destino: \(sharedInfo.textFieldDestiny)
+"""
         // Enviamos una solicitud a la API de GPT y manejamos el resultado usando Combine
         cancellable = gptAPIManager.sendRequest(prompt: modifiedUserInput)
             .sink(receiveCompletion: { completion in
@@ -90,13 +111,44 @@ struct DirectionsView: View {
             }, receiveValue: { response in
                 // Actualizamos la propiedad gptResponse en sharedInfo con la respuesta recibida de la API
                 sharedInfo.gptResponse = response
-                print("Respuesta GPT: \(response)")
+                // Manejo de la cadena obtenida de la API
+                let lines = sharedInfo.gptResponse.components(separatedBy: .newlines)
+
+                if lines.count >= 3 {
+                    let line1 = lines[0]
+                    sharedInfo.latOri = Double(line1) ?? 19.25465
+                    let line2 = lines[1]
+                    sharedInfo.lonOri = Double(line2) ?? -99.10356
+                    let line3 = lines[2]
+                    sharedInfo.latDes = Double(line3) ?? 19.3467
+                    let line4 = lines[3]
+                    sharedInfo.lonDes = Double(line4) ?? -99.16174
+                    // Obteniendo el resto del texto
+                    let remainingLines = lines[4...].joined(separator: "\n")
+                    sharedInfo.indicaciones = remainingLines
+                } else {
+                    print("El texto analizado tiene menos de 4 líneas.")
+                }
+                
+                var extractedValues: [String] = []
+
+                for line in lines {
+                    if let range = line.range(of: ": ") {
+                        let value = line[range.upperBound...].trimmingCharacters(in: .whitespaces)
+                        extractedValues.append(value)
+                    }
+                }
+                print(extractedValues)
             })
     }
 }
 
 /// MapView representa un mapa y permite mostrar direcciones entre dos puntos
 struct MapView : UIViewRepresentable {
+    
+    // Declaramos la instancia de tipo SharedInfoModel para acceder a las variables de ambiente.
+    @EnvironmentObject var sharedInfo: SharedInfoModel
+    
     // Tipo de vista asociada a UIViewRepresentable
     typealias UIViewType = MKMapView
     // Variable de enlace para las instrucciones de dirección
@@ -115,11 +167,11 @@ struct MapView : UIViewRepresentable {
         mapView.delegate = context.coordinator
         // Configurar la región del mapa
         let region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 19.4326, longitude: -99.1332), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+            center: CLLocationCoordinate2D(latitude: sharedInfo.latOri ?? 10, longitude: sharedInfo.lonOri ?? -90), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
         mapView.setRegion(region, animated: true)
         // Crear dos puntos en el mapa (p1 y p2)
-        let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 19.4326, longitude: -99.1332))
-        let p2 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 19.03793, longitude: -98.20346))
+        let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: sharedInfo.latOri ?? 10, longitude: sharedInfo.lonOri ?? -90))
+        let p2 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: sharedInfo.latDes ?? 10.5, longitude: sharedInfo.lonDes ?? -90.5))
         // Crear y configurar una solicitud de direcciones
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: p1)

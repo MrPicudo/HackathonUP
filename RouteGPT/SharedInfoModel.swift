@@ -12,11 +12,17 @@ class SharedInfoModel: ObservableObject {
     
     // Variables observables del perfil
     @Published var image: String = "usuario"
-    @Published var name: String = ""
+    @Published var name: String = "Ari Barrera"
     @Published var age: Int?
     @Published var preferedT: String = ""
     @Published var optimize: String = ""
     
-    // Variable para el control de los botones
-    @Published var editing: Bool = false
+    // Variables de coordenadas
+    @Published var latOri: Double?
+    @Published var lonOri: Double?
+    @Published var latDes: Double?
+    @Published var lonDes: Double?
+    
+    // Variable de indicaciones
+    @Published var indicaciones: String = ""
 }
