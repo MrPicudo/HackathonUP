@@ -13,7 +13,9 @@ class SharedInfoModel: ObservableObject {
     // Variables observables del perfil
     @Published var image: String = "usuario"
     @Published var name: String = "Ari Barrera"
-    @Published var age: Int?
+    @Published var age: String = ""
+    
+    // Modificadores de prompt
     @Published var preferedT: String = ""
     @Published var optimize: String = ""
     

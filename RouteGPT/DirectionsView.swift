@@ -105,7 +105,7 @@ Longitud de sitio de origen: (valor de longitud de origen con decimales)
 Latitud de sitio de destino: (valor de latitud de destino con decimales)
 Longitud de sitio de destino: (valor de longitud de destino con decimales)
 Importante, ¡NO dejes renglones en blanco!.
-Posteriormente, dame las indicaciones detalladas para llegar del origen al destino utilizando la mejor ruta posible. Considera que soy una persona de 29 años cuyo medio de transporte preferido es el transporte público y mi objetivo es ir en la ruta más económica posible. Dame un aproximado de tiempo y costo para la ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte.
+Posteriormente, dame las indicaciones detalladas para llegar del origen al destino utilizando la mejor ruta posible. Considera que soy una persona de \(sharedInfo.age) años cuyo y que estoy viajando \(sharedInfo.preferedT) y mi objetivo es optimizar la \(sharedInfo.optimize) en mi viaje. Dame un aproximado de tiempo y costo para la ruta, distancia aproximada y si hay algo específico a considerar, menciónalo en una nota aparte.
 Origen: \(sharedInfo.textFieldOrigin)
 Destino: \(sharedInfo.textFieldDestiny)
 """

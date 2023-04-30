@@ -6,7 +6,7 @@ struct ProfileView: View {
     @EnvironmentObject var sharedInfo: SharedInfoModel
     // Contiene nombre, edad, transporte preferido y optimización.
     
-    @State private var edad = 12.0
+    @State private var edad = 29.0
     
     // Medio de transporte preferido, solo 1 a la vez.
     @State private var car = false
@@ -96,6 +96,7 @@ struct ProfileView: View {
                             car.toggle()
                             selected01.toggle()
                             carChoise.toggle()
+                            sharedInfo.preferedT = "en automóvil privado"
                         } label: {
                             Image((!editing || (selected01 && carChoise == false)) ? "carro2" : "carro")
                                 .resizable()
@@ -106,6 +107,7 @@ struct ProfileView: View {
                             bus.toggle()
                             selected01.toggle()
                             busChoise.toggle()
+                            sharedInfo.preferedT = "en transporte público"
                         } label: {
                             Image((!editing || (selected01 && busChoise == false)) ? "publico2" : "publico")
                                 .resizable()
@@ -116,6 +118,7 @@ struct ProfileView: View {
                             bic.toggle()
                             selected01.toggle()
                             bicChoise.toggle()
+                            sharedInfo.preferedT = "en bicicleta"
                         } label: {
                             Image((!editing || (selected01 && bicChoise == false)) ? "bicicleta2" : "bicicleta")
                                 .resizable()
@@ -126,6 +129,7 @@ struct ProfileView: View {
                             walk.toggle()
                             selected01.toggle()
                             walkChoise.toggle()
+                            sharedInfo.preferedT = "a pie"
                         } label: {
                             Image((!editing || (selected01 && walkChoise == false)) ? "caminar2" : "caminar")
                                 .resizable()
@@ -149,6 +153,7 @@ struct ProfileView: View {
                             sec.toggle()
                             selected02.toggle()
                             secChoise.toggle()
+                            sharedInfo.optimize = "seguridad"
                         } label: {
                             Image((!editing || (selected02 && secChoise == false)) ? "seguridad2" : "seguridad")
                                 .resizable()
@@ -159,6 +164,7 @@ struct ProfileView: View {
                             quick.toggle()
                             selected02.toggle()
                             quickChoise.toggle()
+                            sharedInfo.optimize = "rapidez"
                         } label: {
                             Image((!editing || (selected02 && quickChoise == false)) ? "velocidad2" : "velocidad")
                                 .resizable()
@@ -169,6 +175,7 @@ struct ProfileView: View {
                             cheap.toggle()
                             selected02.toggle()
                             cheapChoise.toggle()
+                            sharedInfo.optimize = "economia del viaje"
                         } label: {
                             Image((!editing || (selected02 && cheapChoise == false)) ? "economia2" : "economia")
                                 .resizable()
@@ -183,6 +190,7 @@ struct ProfileView: View {
                 Spacer()
                 
                 Button {
+                    sharedInfo.age = String(edad)
                     editing.toggle()
                     if editing {
                         buttonTitle = "Hecho"
