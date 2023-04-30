@@ -161,6 +161,9 @@ struct MapView : UIViewRepresentable {
     
     // Creación de la vista MKMapView
     func makeUIView(context: Context) -> MKMapView{
+        // Crean dos sitios (origen y destino) con sus coordenadas
+        let startingPlacemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: sharedInfo.latOri ?? 10, longitude: sharedInfo.lonOri ?? -90))
+        let destinationPlacemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: sharedInfo.latDes ?? 10.5, longitude: sharedInfo.lonDes ?? -90.5))
         // Crear un objeto MKMapView
         let mapView = MKMapView()
         // Asignar el delegado del mapa al coordinador
@@ -170,12 +173,21 @@ struct MapView : UIViewRepresentable {
             center: CLLocationCoordinate2D(latitude: sharedInfo.latOri ?? 10, longitude: sharedInfo.lonOri ?? -90), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
         mapView.setRegion(region, animated: true)
         // Crear dos puntos en el mapa (p1 y p2)
-        let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: sharedInfo.latOri ?? 10, longitude: sharedInfo.lonOri ?? -90))
-        let p2 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: sharedInfo.latDes ?? 10.5, longitude: sharedInfo.lonDes ?? -90.5))
+        let p1 = MKPointAnnotation()
+        // Se asignan las mismas coordenas que en placemark
+        p1.coordinate = startingPlacemark.coordinate
+        // Cambia el valor de la etiqueta
+        p1.title = "Origen"
+        let p2 = MKPointAnnotation()
+        p2.coordinate = destinationPlacemark.coordinate
+        p2.title = "Destino"
+        // Añaden los dos puntos a el mapa
+        mapView.addAnnotations([p1, p2])
+        
         // Crear y configurar una solicitud de direcciones
         let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: p1)
-        request.destination = MKMapItem(placemark: p2)
+        request.source = MKMapItem(placemark: startingPlacemark)
+        request.destination = MKMapItem(placemark: destinationPlacemark)
         request.transportType = .walking;
         
         // Crear objeto de direcciones y calcular la ruta

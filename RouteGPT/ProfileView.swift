@@ -6,7 +6,7 @@ struct ProfileView: View {
     @EnvironmentObject var sharedInfo: SharedInfoModel
     // Contiene nombre, edad, transporte preferido y optimización.
     
-    @State private var edad = 5
+    @State private var edad = 12.0
     
     // Medio de transporte preferido, solo 1 a la vez.
     @State private var car = false
@@ -52,11 +52,19 @@ struct ProfileView: View {
                     Divider()
                     Spacer()
                     
-                    Stepper("Edad: \(edad)", value: $edad, in: 5...100)
-                        .font(.title)
-                        .disabled(!editing)
-                        .opacity(editing ? 1.0 : 0.5)
-                        .animation(.easeInOut, value: editing)
+                    Slider(
+                                value: $edad,
+                                in: 12...99,
+                                step: 1
+                            ) {
+                                Text("Speed")
+                            } minimumValueLabel: {
+                                Text("12")
+                            } maximumValueLabel: {
+                                Text("99")
+                            }
+                            Text("\(edad.formatted())")
+                                .foregroundColor(.blue)
                 }
                 
                 Divider()
