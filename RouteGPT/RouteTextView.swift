@@ -16,15 +16,18 @@ struct RouteTextView: View {
             VStack {
                 // Vista de perfil de usuario
                 HStack {
+                    Text("Hola " + sharedInfo.name)
+                        .font(.largeTitle)
+                        .fontWeight(.heavy)
                     Spacer()
-                    Button {
-                        print("Imagen de perfil")
-                    } label: {
-                        Image(systemName: "person.crop.circle")
-                            .font(.largeTitle)
-                            .padding(20)
+                    NavigationLink(destination: Perfil().environmentObject(sharedInfo)) {
+                        Image(sharedInfo.image)
+                            .resizable()
+                            .frame(width: 70, height: 70)
+                            .cornerRadius(50)
                     }
                 }
+                .padding(30)
                 Spacer()
                 // Vista de origen
                 TextField("Origen", text: $sharedInfo.textFieldOrigin) // Si cambiamos la variable por "userInput" esa se manda a chatGPT (textFieldOrigin)
@@ -51,6 +54,7 @@ struct RouteTextView: View {
 
 struct RouteTextView_Previews: PreviewProvider {
     static var previews: some View {
-        RouteTextView()
+        let sharedInfo = SharedInfoModel()
+        RouteTextView().environmentObject(sharedInfo)
     }
 }

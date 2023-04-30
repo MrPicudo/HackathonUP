@@ -170,6 +170,7 @@ struct MapView : UIViewRepresentable {
 
 struct DirectionsView_Previews: PreviewProvider {
     static var previews: some View {
-        DirectionsView()
+        let sharedInfo = SharedInfoModel()
+        DirectionsView().environmentObject(sharedInfo)
     }
 }
