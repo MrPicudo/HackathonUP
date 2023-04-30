@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		433D7D6E29FEF739003F30BF /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433D7D6D29FEF739003F30BF /* SpeechManager.swift */; };
 		435E677629FD871B00BE3C06 /* RouteGPTApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E677529FD871B00BE3C06 /* RouteGPTApp.swift */; };
 		435E677829FD871B00BE3C06 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435E677729FD871B00BE3C06 /* ContentView.swift */; };
 		435E677A29FD871D00BE3C06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 435E677929FD871D00BE3C06 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		433D7D6D29FEF739003F30BF /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
 		435E677229FD871B00BE3C06 /* RouteGPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteGPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		435E677529FD871B00BE3C06 /* RouteGPTApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteGPTApp.swift; sourceTree = "<group>"; };
 		435E677729FD871B00BE3C06 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				43F2740629FDC061009F416A /* DirectionsView.swift */,
 				43F2740A29FDD618009F416A /* RoundedPhoto.swift */,
 				FEFFFF9429FDF86100EAAFFD /* ProfileView.swift */,
+				433D7D6D29FEF739003F30BF /* SpeechManager.swift */,
 			);
 			path = RouteGPT;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 				FEFFFF9529FDF86100EAAFFD /* ProfileView.swift in Sources */,
 				435E677829FD871B00BE3C06 /* ContentView.swift in Sources */,
 				435E678829FD97C200BE3C06 /* SharedInfoModel.swift in Sources */,
+				433D7D6E29FEF739003F30BF /* SpeechManager.swift in Sources */,
 				435E678629FD88DF00BE3C06 /* RouteTextView.swift in Sources */,
 				435E678429FD87FA00BE3C06 /* GPTAPIManager.swift in Sources */,
 				43F2740729FDC061009F416A /* DirectionsView.swift in Sources */,
@@ -298,6 +302,7 @@
 				DEVELOPMENT_TEAM = WTLRY9GBMJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "To set the origin and destiny";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -327,6 +332,7 @@
 				DEVELOPMENT_TEAM = WTLRY9GBMJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "To set the origin and destiny";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

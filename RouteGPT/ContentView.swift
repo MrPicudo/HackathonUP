@@ -8,7 +8,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            RouteTextView()
+            RouteTextView(speechManager: SpeechManager())
         }
         .environmentObject(sharedInfo) // Lo agregamos a todo el NavitationView completo
     }

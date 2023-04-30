@@ -8,6 +8,13 @@ struct RouteTextView: View {
     // Declaramos la instancia de tipo SharedInfoModel para accedero a las variables de ambiente.
     @EnvironmentObject var sharedInfo: SharedInfoModel
     
+    @ObservedObject var speechManager: SpeechManager
+    
+    // Instancia y variables para el reconocimiento de voz
+    // @StateObject private var speechManager = SpeechManager()
+    @State private var originButtonTitle = "Origen"
+    @State private var destinyButtonTitle = "Destino"
+    
     var body: some View {
         ZStack {
             Image("background")
@@ -41,6 +48,7 @@ struct RouteTextView: View {
                 
                 Spacer()
                 
+                /*
                 // Vista de origen
                 TextField("Origen", text: $sharedInfo.textFieldOrigin) // Si cambiamos la variable por "userInput" esa se manda a chatGPT (textFieldOrigin)
                     .padding(30)
@@ -49,7 +57,28 @@ struct RouteTextView: View {
                 TextField("Destino", text: $sharedInfo.textFieldDestiny)
                     .padding(30)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                */
                 
+                // Creamos un botón que llame a la función recordButtonTapped() de SpeechManager.
+                Button{
+                    speechManager.recordButtonTapped()
+                    // Comprobamos si el motor de audio está en funcionamiento.
+                    if speechManager.audioEngine.isRunning {
+                        // Si está funcionando, actualizamos el título del botón y el estado de la grabación.
+                        originButtonTitle = "Grabando..."
+                    } else {
+                        // Si no está funcionando, actualizamos el título del botón y el estado de la grabación.
+                        originButtonTitle = "Recon"
+                    }
+                } label: {
+                    Text("Presiona aquí")
+                }
+                
+                // Texto grabado
+                Text(speechManager.recognizedVoiceText)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                      
                 Spacer()
                 
                 NavigationLink(destination: DirectionsView().environmentObject(sharedInfo)) {
@@ -65,12 +94,15 @@ struct RouteTextView: View {
                 }
             }
         }
+        .onAppear(perform: {
+            speechManager.requestAuthorization()
+        })
     }
 }
 
 struct RouteTextView_Previews: PreviewProvider {
     static var previews: some View {
         let sharedInfo = SharedInfoModel()
-        RouteTextView().environmentObject(sharedInfo)
+        RouteTextView(speechManager: SpeechManager()).environmentObject(sharedInfo)
     }
 }

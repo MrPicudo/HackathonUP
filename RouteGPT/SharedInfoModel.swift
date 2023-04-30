@@ -25,4 +25,7 @@ class SharedInfoModel: ObservableObject {
     
     // Variable de indicaciones
     @Published var indicaciones: String = ""
+    
+    // Variable de reconocimiento de voz
+    @Published var recon: String = ""
 }

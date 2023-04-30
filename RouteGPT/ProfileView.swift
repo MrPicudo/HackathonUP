@@ -53,18 +53,18 @@ struct ProfileView: View {
                     Spacer()
                     
                     Slider(
-                                value: $edad,
-                                in: 12...99,
-                                step: 1
-                            ) {
-                                Text("Speed")
-                            } minimumValueLabel: {
-                                Text("12")
-                            } maximumValueLabel: {
-                                Text("99")
-                            }
-                            Text("\(edad.formatted())")
-                                .foregroundColor(.blue)
+                        value: $edad,
+                        in: 12...99,
+                        step: 1
+                    ) {
+                        Text("Speed")
+                    } minimumValueLabel: {
+                        Text("12")
+                    } maximumValueLabel: {
+                        Text("99")
+                    }
+                    Text("\(edad.formatted())")
+                        .foregroundColor(.blue)
                 }
                 
                 Divider()
