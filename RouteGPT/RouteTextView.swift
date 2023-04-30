@@ -20,7 +20,7 @@ struct RouteTextView: View {
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                     Spacer()
-                    NavigationLink(destination: Perfil().environmentObject(sharedInfo)) {
+                    NavigationLink(destination: ProfileView().environmentObject(sharedInfo)) {
                         Image(sharedInfo.image)
                             .resizable()
                             .frame(width: 70, height: 70)

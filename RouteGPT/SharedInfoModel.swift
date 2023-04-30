@@ -5,6 +5,7 @@ import SwiftUI
 
 /// Almacena todas las variables observables que necesitamos compartir entre vistas
 class SharedInfoModel: ObservableObject {
+    // Variables para el paso de información a la API
     @Published var gptResponse: String = ""
     @Published var textFieldOrigin: String = ""
     @Published var textFieldDestiny: String = ""
@@ -16,4 +17,6 @@ class SharedInfoModel: ObservableObject {
     @Published var preferedT: String = ""
     @Published var optimize: String = ""
     
+    // Variable para el control de los botones
+    @Published var editing: Bool = false
 }

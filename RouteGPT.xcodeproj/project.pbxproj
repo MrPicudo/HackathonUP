@@ -17,7 +17,7 @@
 		435E678A29FDA1DE00BE3C06 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 435E678929FDA1DE00BE3C06 /* Keys.plist */; };
 		43F2740729FDC061009F416A /* DirectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F2740629FDC061009F416A /* DirectionsView.swift */; };
 		43F2740B29FDD618009F416A /* RoundedPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F2740A29FDD618009F416A /* RoundedPhoto.swift */; };
-		FEFFFF9529FDF86100EAAFFD /* Perfil.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFFFF9429FDF86100EAAFFD /* Perfil.swift */; };
+		FEFFFF9529FDF86100EAAFFD /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFFFF9429FDF86100EAAFFD /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +32,7 @@
 		435E678929FDA1DE00BE3C06 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		43F2740629FDC061009F416A /* DirectionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionsView.swift; sourceTree = "<group>"; };
 		43F2740A29FDD618009F416A /* RoundedPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedPhoto.swift; sourceTree = "<group>"; };
-		FEFFFF9429FDF86100EAAFFD /* Perfil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perfil.swift; sourceTree = "<group>"; };
+		FEFFFF9429FDF86100EAAFFD /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 				435E678729FD97C200BE3C06 /* SharedInfoModel.swift */,
 				43F2740629FDC061009F416A /* DirectionsView.swift */,
 				43F2740A29FDD618009F416A /* RoundedPhoto.swift */,
-				FEFFFF9429FDF86100EAAFFD /* Perfil.swift */,
+				FEFFFF9429FDF86100EAAFFD /* ProfileView.swift */,
 			);
 			path = RouteGPT;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43F2740B29FDD618009F416A /* RoundedPhoto.swift in Sources */,
-				FEFFFF9529FDF86100EAAFFD /* Perfil.swift in Sources */,
+				FEFFFF9529FDF86100EAAFFD /* ProfileView.swift in Sources */,
 				435E677829FD871B00BE3C06 /* ContentView.swift in Sources */,
 				435E678829FD97C200BE3C06 /* SharedInfoModel.swift in Sources */,
 				435E678629FD88DF00BE3C06 /* RouteTextView.swift in Sources */,
